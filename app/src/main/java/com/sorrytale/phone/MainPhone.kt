@@ -1,5 +1,6 @@
 package com.sorrytale.phone
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -20,5 +21,10 @@ class MainPhone : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            Intent(this, Settings::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 }

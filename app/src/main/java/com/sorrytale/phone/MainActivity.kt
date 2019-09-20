@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Looper
+import android.preference.PreferenceManager
 import android.widget.ImageView
 import android.widget.TextView
 import org.w3c.dom.Text
@@ -20,12 +21,6 @@ class MainActivity : AppCompatActivity() {
         if (intent.getStringExtra("caller") != null && intent.getStringExtra("caller") != "") {
             findViewById<TextView>(R.id.callerName).text = intent.getStringExtra("caller")
             findViewById<ImageView>(R.id.endCall).setOnClickListener {
-//                Intent(Intent.ACTION_MAIN).apply {
-//                    addCategory(Intent.CATEGORY_HOME)
-//                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-//                }.also {
-//                    startActivity(it)
-//                }
                 finish()
             }
         }
@@ -46,15 +41,18 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }, 3000)
 
-        android.os.Handler(Looper.getMainLooper()).postDelayed({
-            Intent().apply {
-                component =
-                    ComponentName("com.sorrytale.amazon", "com.sorrytale.amazon.Notifier")
-                action = "com.sorrytale.amazon.action.NOTIFY"
-            }.also {
-                startForegroundService(it)
-            }
-        }, 5000)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (prefs.getBoolean("amazonEnabled", false)) {
+            android.os.Handler(Looper.getMainLooper()).postDelayed({
+                Intent().apply {
+                    component =
+                        ComponentName("com.sorrytale.amazon", "com.sorrytale.amazon.Notifier")
+                    action = "com.sorrytale.amazon.action.NOTIFY"
+                }.also {
+                    startForegroundService(it)
+                }
+            }, prefs.getLong("amazonDelay", 1000))
+        }
     }
 
     fun stringifyTime(time: Long): String {
