@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Phone</string>
+    <string name="title_activity_main_phone">Phone</string>
+    <string name="tab_text_1">Favorites</string>
+    <string name="tab_text_2">Recents</string>
+    <string name="tab_text_3">Contacts</string>
+</resources>
