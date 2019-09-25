@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:orientation="horizontal"
@@ -14,8 +14,8 @@
         android:layout_height="match_parent">
 
         <View
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
             android:background="@drawable/circle" />
 
@@ -30,7 +30,7 @@
             android:shadowRadius="3"
             android:text="T"
             android:textColor="@color/white"
-            android:textSize="40sp">
+            android:textSize="35sp">
 
         </TextView>
     </RelativeLayout>
@@ -41,5 +41,5 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="Trish"
-        android:textSize="28sp" />
+        android:textSize="20sp" />
 </LinearLayout>

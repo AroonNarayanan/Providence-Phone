@@ -18,30 +18,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.statusBarColor = Color.parseColor("#00CA08")
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         if (intent.getStringExtra("caller") != null && intent.getStringExtra("caller") != "") {
             findViewById<TextView>(R.id.callerName).text = intent.getStringExtra("caller")
             findViewById<ImageView>(R.id.endCall).setOnClickListener {
                 finish()
             }
         }
-        val callTime = findViewById<TextView>(R.id.callTime)
-        android.os.Handler(Looper.getMainLooper()).postDelayed({
-            callTime.text = "00:00"
-            object : CountDownTimer(600000, 1000) {
+        if (intent.getLongExtra("amazon", 0) != 0.toLong()) {
+            prefs.edit().putLong("amazonDelay", intent.getLongExtra("amazon", 0))
+                .putBoolean("amazonEnabled", true).apply()
+        }
+        if (!intent.getBooleanExtra("nopickup", false)) {
+            val callTime = findViewById<TextView>(R.id.callTime)
+            android.os.Handler(Looper.getMainLooper()).postDelayed({
+                callTime.text = "00:00"
+                object : CountDownTimer(600000, 1000) {
 
-                override fun onTick(millisUntilFinished: Long) {
-                    val time = (600000 - millisUntilFinished) / 1000
-                    callTime.text =
-                        "${stringifyTime(getMinutes(time))}:${stringifyTime(getSeconds(time))}"
-                }
+                    override fun onTick(millisUntilFinished: Long) {
+                        val time = (600000 - millisUntilFinished) / 1000
+                        callTime.text =
+                            "${stringifyTime(getMinutes(time))}:${stringifyTime(getSeconds(time))}"
+                    }
 
-                override fun onFinish() {
+                    override fun onFinish() {
 
-                }
-            }.start()
-        }, 3000)
-
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+                    }
+                }.start()
+            }, 3000)
+        }
         if (prefs.getBoolean("amazonEnabled", false)) {
             android.os.Handler(Looper.getMainLooper()).postDelayed({
                 Intent().apply {
